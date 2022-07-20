@@ -5,8 +5,8 @@
 
 #define oneWireBus  0
 
-#define STASSID "PaliniAlves"
-#define STAPSK  "12345678"
+#define STASSID "AusyxSTE_01"
+#define STAPSK  "ausyx_ste"
 
 const char* ssid     = STASSID;
 const char* password = STAPSK;
@@ -92,7 +92,7 @@ void loop() {
       Serial.print("Temperatura: ");
       Serial.println(temperatura);
 
-      client.send(temperatura);
+      client.send(String(temperatura));
       loopCounter = 0;
 
     }
