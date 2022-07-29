@@ -6,10 +6,11 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
+#define CT_NUMBER 22 ---> MUDAR AQUI O NUMERO DO CT!!!
+#define oneWireBus 0
+
 ESP8266WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
-
-#define oneWireBus 0
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
 OneWire oneWire(oneWireBus);
@@ -17,11 +18,14 @@ DallasTemperature sensors(&oneWire);
 
 void setup() {
   Serial.begin(115200);
-  WiFiMulti.addAP("CT_101", "AusyxSolucoes");
+  WiFiMulti.addAP("CT_22", "AusyxSolucoes");
 
+  Serial.print("Tentando primeira conexão, ficará aqui eternamente até conseguir se conectar a: ");
+  Serial.println("CT_22");
   while(WiFiMulti.run() != WL_CONNECTED) {
     delay(100);
   }
+  Serial.println("Conectado!");
 
   webSocket.begin("192.168.4.1", 80, "/");
   webSocket.onEvent(webSocketEvent);
@@ -49,9 +53,9 @@ void loop() {
 
         itoa(temperatura, tempStr, 10);
       
-        Serial.println(" ");
-        Serial.print("Temperatura: ");
-        Serial.println(tempStr);
+//        Serial.println(" ");
+//        Serial.print("Temperatura: ");
+//        Serial.println(tempStr);
 
         webSocket.sendTXT(tempStr);
         loopCounter = 0;
