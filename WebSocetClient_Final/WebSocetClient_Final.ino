@@ -6,7 +6,15 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-#define CT_NUMBER 22 ---> MUDAR AQUI O NUMERO DO CT!!!
+/*
+ * MUDAR AQUI OS VALORES DA CONFIGURACAO DE CONEXAO!!
+ */
+#define SERVER_SSID "CT_22"
+#define SERVER_PASSWORD "AusyxSolucoes"
+/*
+ * ---------------------------------------------------
+ */
+
 #define oneWireBus 0
 
 ESP8266WiFiMulti WiFiMulti;
@@ -18,11 +26,11 @@ DallasTemperature sensors(&oneWire);
 
 void setup() {
   Serial.begin(115200);
-  WiFiMulti.addAP("CT_22", "AusyxSolucoes");
+  WiFiMulti.addAP(SERVER_SSID, SERVER_PASSWORD);
 
   Serial.print("Tentando primeira conexão, ficará aqui eternamente até conseguir se conectar a: ");
-  Serial.println("CT_22");
-  while(WiFiMulti.run() != WL_CONNECTED) {
+  Serial.println(SERVER_SSID);
+  while (WiFiMulti.run() != WL_CONNECTED) {
     delay(100);
   }
   Serial.println("Conectado!");
@@ -43,23 +51,23 @@ char tempStr[3];
 void loop() {
   webSocket.loop();
 
-  if(webSocket.isConnected()) {
+  if (webSocket.isConnected()) {
     if (loopCounter >= 50) {
-        sensors.requestTemperatures();
-        temperatura = sensors.getTempCByIndex(0);
+      sensors.requestTemperatures();
+      temperatura = sensors.getTempCByIndex(0);
 
-        if (temperatura < 1) temperatura = 0;
-        if (temperatura > 150) temperatura = 150;
+      if (temperatura < 1) temperatura = 0;
+      if (temperatura > 150) temperatura = 150;
 
-        itoa(temperatura, tempStr, 10);
-      
-//        Serial.println(" ");
-//        Serial.print("Temperatura: ");
-//        Serial.println(tempStr);
+      itoa(temperatura, tempStr, 10);
 
-        webSocket.sendTXT(tempStr);
-        loopCounter = 0;
-      }
+      //        Serial.println(" ");
+      //        Serial.print("Temperatura: ");
+      //        Serial.println(tempStr);
+
+      webSocket.sendTXT(tempStr);
+      loopCounter = 0;
+    }
   }
 
   loopCounter++;
@@ -67,12 +75,12 @@ void loop() {
 }
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
-  switch(type) {
+  switch (type) {
     case WStype_DISCONNECTED:
       Serial.printf("[WSc] Disconnected!\n");
       break;
     case WStype_CONNECTED:
       Serial.printf("[WSc] Connected to url: %s\n", payload);
       break;
-    }
+  }
 }
