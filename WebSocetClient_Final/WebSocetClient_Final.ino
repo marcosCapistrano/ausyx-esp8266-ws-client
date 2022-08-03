@@ -9,7 +9,7 @@
 /*
  * MUDAR AQUI OS VALORES DA CONFIGURACAO DE CONEXAO!!
  */
-#define SERVER_SSID "CT_22"
+#define SERVER_SSID "Ausyx-STE_01"
 #define SERVER_PASSWORD "AusyxSolucoes"
 /*
  * ---------------------------------------------------
