@@ -9,7 +9,7 @@
 /*
  * MUDAR AQUI OS VALORES DA CONFIGURACAO DE CONEXAO!!
  */
-#define SERVER_SSID "Ausyx-STE_01"
+#define SERVER_SSID "CT_34"
 #define SERVER_PASSWORD "AusyxSolucoes"
 /*
  * ---------------------------------------------------
@@ -21,7 +21,7 @@ ESP8266WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
-OneWire oneWire(oneWireBus);
+OneWire oneWire(oneWireBus); 
 DallasTemperature sensors(&oneWire);
 
 void setup() {
@@ -30,6 +30,8 @@ void setup() {
 
   Serial.print("Tentando primeira conexão, ficará aqui eternamente até conseguir se conectar a: ");
   Serial.println(SERVER_SSID);
+
+  
   while (WiFiMulti.run() != WL_CONNECTED) {
     delay(100);
   }
