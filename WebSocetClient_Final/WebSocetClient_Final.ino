@@ -9,8 +9,8 @@
 /*
  * MUDAR AQUI OS VALORES DA CONFIGURACAO DE CONEXAO!!
  */
-#define SERVER_SSID "CT_34"
-#define SERVER_PASSWORD "AusyxSolucoes"
+#define SERVER_SSID "PaliniAlves"
+#define SERVER_PASSWORD "12345678"
 /*
  * ---------------------------------------------------
  */
@@ -37,7 +37,7 @@ void setup() {
   }
   Serial.println("Conectado!");
 
-  webSocket.begin("192.168.4.1", 80, "/");
+  webSocket.begin("192.168.4.1", 80, "/ws");
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(5000);
   webSocket.enableHeartbeat(15000, 3000, 2);
@@ -48,7 +48,7 @@ void setup() {
 // O que da mais ou menos 10 segundos
 int loopCounter = 0;
 int temperatura = 0;
-char tempStr[3];
+char fullStr[5];
 
 void loop() {
   webSocket.loop();
@@ -61,13 +61,13 @@ void loop() {
       if (temperatura < 1) temperatura = 0;
       if (temperatura > 150) temperatura = 150;
 
-      itoa(temperatura, tempStr, 10);
+      sprintf(fullStr, "2,%d", temperatura);
 
       //        Serial.println(" ");
       //        Serial.print("Temperatura: ");
       //        Serial.println(tempStr);
 
-      webSocket.sendTXT(tempStr);
+      webSocket.sendTXT(fullStr);
       loopCounter = 0;
     }
   }
